@@ -1,0 +1,10 @@
+@import 'uview-plus/theme.scss';
+/* 颜色变量 */
+
+/* 行为相关颜色 */
+$theme-color: hsl(0deg 100% 50%);
+$bg-color: #f4f4f4;
+$main-color: #1c1c1c;
+$sub-color: #b0b0b0;
+
+@import "/src/mixin";

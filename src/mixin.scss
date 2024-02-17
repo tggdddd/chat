@@ -1,0 +1,155 @@
+@mixin square($size) {
+  width: $size;
+  height: $size;
+}
+
+@mixin full {
+  width: 100%;
+  height: 100%;
+}
+
+@mixin center($width: null, $height: null,$pw:null,$ph:null) {
+  @if str-length(unit($width)) == 0 {
+    $width: #{$width}rpx;
+  }
+  @if str-length(unit($height)) == 0 {
+    $width: #{$height}rpx;
+  }
+  @if str-length(unit($pw)) == 0 {
+    $width: #{$pw}rpx;
+  }
+  @if str-length(unit($ph)) == 0 {
+    $width: #{$ph}rpx;
+  }
+  @if not $pw and not $ph {
+    width: $width;
+    height: $height;
+    margin-left: ($pw - $width)/2;
+    margin-top: ($ph - $height)/2;
+  } @else {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    @if not $width and not $height {
+      transform: translate(-50%, -50%);
+    } @else if $width and $height {
+      width: $width;
+      height: $height;
+      margin: #{-($width / 2)} #{0 0} #{-($height / 2)};
+    } @else if not $height {
+      width: $width;
+      margin-left: -($width / 2);
+      transform: translateY(-50%);
+    } @else {
+      height: $height;
+      margin-top: -($height / 2);
+      transform: translateX(-50%);
+    }
+  }
+}
+
+$direction: ((x, row), (xr, row-reverse), (y, column), (yr, column-reverse));
+$y-a: ((c, center), (s, flex-start), (e, flex-end));
+$x-a: ((s, flex-start), (c, center), (e, flex-end), (a, space-around), (b, space-between), (n, space-evenly));
+
+@mixin flexbox($y:c,$x:c,$d:x) {
+  @each $dd in $direction {
+    $d1: nth($dd, 1);
+    $d2: nth($dd, 2);
+    @each $xx in $x-a {
+      $x1: nth($xx, 1);
+      $x2: nth($xx, 2);
+      @each $yy in $y-a {
+        $y1: nth($yy, 1);
+        $y2: nth($yy, 2);
+        @if $d1==$d {
+          @if $x1==$x {
+            @if $y1==$y {
+              display: flex;
+              align-items: $y2;
+              justify-content: $x2;
+              flex-direction: $d2;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin bgImg() {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@mixin bgRest {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+@mixin hover($body:null) {
+  transition: all .2s;
+  &:hover, &:active {
+    opacity: .86;
+    transform: scale(0.94);
+    box-shadow: 0 0 4rpx #00000030;
+    @content;
+  }
+}
+
+@mixin checkbox($size:1em) {
+  color: inherit;
+  width: $size;
+  height: $size;
+  border: 2rpx solid currentColor;
+  @include flexbox(c, c);
+  box-sizing: border-box;
+  border-radius: 8rpx;
+  user-select: none;
+  margin-right: 8rpx;
+
+  &.active {
+    background: $theme-color;
+  }
+  &::before {
+    color: inherit;
+    content: "";
+    width: calc($size * 0.34);
+    height: calc($size * 0.74);
+    border-bottom: 4rpx solid currentColor;
+    border-right: 4rpx solid currentColor;
+    box-sizing: border-box;
+    transform: rotateZ(45deg) translate(calc($size * -0.03), calc($size * -0.03));
+  }
+}
+
+@mixin tag($height:1.6em,$px:24rpx) {
+  width: fit-content;
+  white-space: nowrap;
+  text-align: center;
+  padding: 0 $px;
+  height: $height;
+  line-height: 1;
+  border-radius: $height * 0.5;
+  @include flexbox(c, c);
+}
+
+
+@mixin text-overflow($line:null) {
+  @if not $line {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $line;
+    overflow: hidden;
+
+  }
+}

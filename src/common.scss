@@ -1,0 +1,151 @@
+@import "static/iconfont";
+//@font-face {
+//  font-family: "iconfont";
+//  src: url('/static/fonts/iconfont.ttf') format('truetype');
+//}
+@font-face {
+  font-family: "emojifont";
+  src: url('/static/fonts/emojifont.ttf') format('truetype');
+}
+
+.border-box {
+  box-sizing: border-box;
+}
+
+.text-overflow {
+  @include text-overflow;
+}
+
+@for $i from 1 to 5 {
+  .text-overflow-#{$i} {
+    @include text-overflow($i);
+  }
+}
+
+.bgImg {
+  @include bgImg;
+}
+
+.bgRest {
+  @include bgRest;
+}
+
+.theme-color {
+  color: $theme-color;
+}
+
+$map: (
+        "s": "left",
+        "b": "bottom",
+        "t": "top",
+        "e": "right",
+        "x": "left",
+        "X": "right",
+        "y": "top",
+        "Y": "bottom",
+);
+@each $k, $v in $map {
+  $k: to-lower-case($k);
+  .m#{$k}-auto {
+    margin-#{$v}: auto !important;
+  }
+
+  .p#{$k}-auto {
+    padding-#{$v}: auto !important;
+  }
+
+}
+
+@for $i from 0 through 10 {
+  @each $k, $v in $map {
+    $k: to-lower-case($k);
+
+    .m#{$k}-#{$i} {
+      margin-#{$v}: $i * 6rpx !important;
+    }
+
+    .p#{$k}-#{$i} {
+      padding-#{$v}: $i * 6rpx !important;
+    }
+
+    .m#{$k}-#{$i}n {
+      margin-#{$v}: -$i * 6rpx !important;
+    }
+
+    .p#{$k}-#{$i}n {
+      padding-#{$v}: -$i * 6rpx !important;
+    }
+  }
+
+  .p-#{$i} {
+    padding: $i * 6rpx !important;
+  }
+
+  .m-#{$i} {
+    margin: $i * 6rpx !important;
+  }
+
+  .p-#{$i}n {
+    padding: -$i * 6rpx !important;
+  }
+
+  .m-#{$i}n {
+    margin: -$i * 6rpx !important;
+  }
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.flex-container {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  .left {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+
+  .content {
+    flex-grow: 1;
+  }
+
+  .right {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+}
+
+$direction: ((x, row), (xr, row-reverse), (y, column), (yr, column-reverse));
+$y-a: ((c, center), (s, flex-start), (e, flex-end));
+$x-a: ((s, flex-start), (c, center), (e, flex-end), (a, space-around), (b, space-between), (n, space-evenly));
+@each $d in $direction {
+  $d1: nth($d, 1);
+  $d2: nth($d, 2);
+  @each $x in $x-a {
+    $x1: nth($x, 1);
+    $x2: nth($x, 2);
+    @each $y in $y-a {
+      $y1: nth($y, 1);
+      $y2: nth($y, 2);
+      .f-#{$d1}-#{$y1}-#{$x1} {
+        display: flex;
+        align-items: $y2;
+        justify-content: $x2;
+        flex-direction: $d2;
+      }
+    }
+  }
+}
+
